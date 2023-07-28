@@ -16,6 +16,7 @@ class SmzdmBot:
         self.cookies_dict = self._cookies_to_dict()
         
         logger.warning(self.cookies)
+        logger.warning(self.sk)
         logger.warning(self)
         
         self.session = requests.Session()
