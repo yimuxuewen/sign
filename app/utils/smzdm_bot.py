@@ -14,7 +14,10 @@ class SmzdmBot:
         self.cookies = unquote(ANDROID_COOKIE)
         self.sk = SK
         self.cookies_dict = self._cookies_to_dict()
-
+        
+        logger.warning(self.cookies)
+        logger.warning(self)
+        
         self.session = requests.Session()
         self.session.headers.update(self._headers())
 
