@@ -16,6 +16,8 @@ class NotifyBot(object):
         self.server_chain()
         self.wecom()
         self.tg_bot()
+        self.dd_plus()
+
 
     def push_plus(self, template="html"):
         if not self.kwargs.get("PUSH_PLUS_TOKEN", None):
