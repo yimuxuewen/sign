@@ -103,3 +103,29 @@ class NotifyBot(object):
                 logger.warning("Fail to notify TelegramBot")
         except Exception as e:
             logger.error(e)
+
+    def dd_plus(self, template="html"):
+        if not self.kwargs.get("DD_TOKEN", None):
+            logger.warning("⚠️ DD_TOKEN not set, skip PushPlus nofitication")
+            return
+        DD_TOKEN = self.kwargs.get("DD_TOKEN")
+
+        url = f"https://oapi.dingtalk.com/robot/send?access_token={DD_TOKEN}"
+        body = {
+                "msgtype": "markdown",
+                "markdown": {"title": self.title,
+                             "text": self.content,
+                             },
+        }
+        data = json.dumps(body).encode(encoding="utf-8")
+        headers = {"Content-Type": "application/json"}
+        try:
+            resp = requests.post(url, data=data, headers=headers)
+            if resp.ok:
+                logger.info("✅ DD Plus notified")
+            else:
+                logger.warning("Fail to notify DD Plus")
+        except Exception as e:
+            logger.error(e)
+
+
