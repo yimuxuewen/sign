@@ -108,11 +108,28 @@ class NotifyBot(object):
 
     def dd_plus(self, template="html"):
         if not self.kwargs.get("DD_TOKEN", None):
-            logger.warning("⚠️ DD_TOKEN not set, skip PushPlus nofitication")
+            logger.warning("⚠️ DD_TOKEN not set, skip DingTalk notification")
             return
         DD_TOKEN = self.kwargs.get("DD_TOKEN")
+        DD_SECRET = self.kwargs.get("DD_SECRET", None)
 
         url = f"https://oapi.dingtalk.com/robot/send?access_token={DD_TOKEN}"
+
+        if DD_SECRET:
+            import hmac
+            import hashlib
+            import base64
+            import time
+            import urllib.parse
+
+            timestamp = str(round(time.time() * 1000))
+            secret_enc = DD_SECRET.encode("utf-8")
+            string_to_sign = f"{timestamp}\n{DD_SECRET}"
+            string_to_sign_enc = string_to_sign.encode("utf-8")
+            hmac_code = hmac.new(secret_enc, string_to_sign_enc, digestmod=hashlib.sha256).digest()
+            sign = urllib.parse.quote_plus(base64.b64encode(hmac_code).decode("utf-8"))
+            url = f"{url}&timestamp={timestamp}&sign={sign}"
+
         body = {
                 "msgtype": "markdown",
                 "markdown": {"title": self.title,
@@ -120,6 +137,7 @@ class NotifyBot(object):
                              },
         }
         data = json.dumps(body).encode(encoding="utf-8")
+        logger.warning("DD Plus notified " + self.title + " " + self.content)
         headers = {"Content-Type": "application/json"}
         try:
             resp = requests.post(url, data=data, headers=headers)
@@ -129,5 +147,4 @@ class NotifyBot(object):
                 logger.warning("Fail to notify DD Plus")
         except Exception as e:
             logger.error(e)
-
 
