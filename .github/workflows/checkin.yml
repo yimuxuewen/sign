@@ -32,5 +32,6 @@ jobs:
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           TG_BOT_API: ${{ secrets.TG_BOT_API }}
           DD_TOKEN: ${{ secrets.DD_TOKEN }}
+          DD_SECRET: ${{ secrets.DD_SECRET }}
         run: |
           python app/main.py
