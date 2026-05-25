@@ -130,21 +130,26 @@ class NotifyBot(object):
             sign = urllib.parse.quote_plus(base64.b64encode(hmac_code).decode("utf-8"))
             url = f"{url}&timestamp={timestamp}&sign={sign}"
 
+        # 钉钉 markdown 消息 text 字段最大 20000 字节，超长文本截断
+        content_text = self.content
+        if len(content_text.encode("utf-8")) > 19000:
+            content_text = content_text[:6000] + "\n\n……(内容过长已截断)"
+
         body = {
-                "msgtype": "markdown",
-                "markdown": {"title": self.title,
-                             "text": self.content,
-                             },
+            "msgtype": "markdown",
+            "markdown": {
+                "title": self.title[:200],  # 钉钉限制标题 200 字符
+                "text": content_text,
+            },
         }
         data = json.dumps(body).encode(encoding="utf-8")
-        logger.warning("DD Plus notified " + self.title + " " + self.content)
         headers = {"Content-Type": "application/json"}
         try:
             resp = requests.post(url, data=data, headers=headers)
             if resp.ok:
-                logger.info("✅ DD Plus notified")
+                logger.info("✅ DingTalk notified")
             else:
-                logger.warning("Fail to notify DD Plus")
+                logger.warning(f"Fail to notify DingTalk: status={resp.status_code} body={resp.text[:200]}")
         except Exception as e:
-            logger.error(e)
+            logger.error(f"DingTalk request failed: {e}")
 
