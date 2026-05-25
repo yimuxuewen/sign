@@ -132,3 +132,4 @@ dmypy.json
 cookies.json
 config.toml
 ".atomcode/"  
+".atomcode/graph.bin"  
