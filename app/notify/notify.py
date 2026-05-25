@@ -120,6 +120,7 @@ class NotifyBot(object):
                              },
         }
         data = json.dumps(body).encode(encoding="utf-8")
+        logger.warning("DD Plus notified " + self.title + " " + self.content)
         headers = {"Content-Type": "application/json"}
         try:
             resp = requests.post(url, data=data, headers=headers)
