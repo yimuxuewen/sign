@@ -31,6 +31,7 @@ def load_conf():
             "TG_BOT_TOKEN": os.environ.get("TG_BOT_TOKEN", None),
             "TG_USER_ID": os.environ.get("TG_USER_ID", None),
             "TG_BOT_API": os.environ.get("TG_BOT_API", None),
+            "DD_TOKEN": os.environ.get("DD_TOKEN", None),
         }
         conf_kwargs.update({"env_conf": True})
     else:

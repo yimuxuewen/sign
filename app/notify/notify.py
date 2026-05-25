@@ -108,7 +108,7 @@ class NotifyBot(object):
 
     def dd_plus(self, template="html"):
         if not self.kwargs.get("DD_TOKEN", None):
-            logger.warning("⚠️ DD_TOKEN not set, skip PushPlus nofitication")
+            logger.warning("⚠️ DD_TOKEN not set, skip DingTalk notification")
             return
         DD_TOKEN = self.kwargs.get("DD_TOKEN")
 
@@ -129,5 +129,4 @@ class NotifyBot(object):
                 logger.warning("Fail to notify DD Plus")
         except Exception as e:
             logger.error(e)
-
 
