@@ -3,8 +3,8 @@ name: Check in
 on:
   workflow_dispatch:
   schedule:
-    # UTC时间，对应Beijing时间 12:30 / 18:30 / 22:30
-    - cron: "30 04,10,14 * * *"
+    # UTC时间，对应Beijing时间 09:30 / 16:30 
+    - cron: "30 01,08 * * *"
 
 jobs:
   run:
