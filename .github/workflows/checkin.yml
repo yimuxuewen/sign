@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # UTC时间，对应Beijing时间 12:15 / 17:15 
-    - cron: "15 01,07 * * *"
+    - cron: "15 22,05 * * *"
 
 jobs:
   run:
